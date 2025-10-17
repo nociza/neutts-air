@@ -72,33 +72,24 @@ NeuTTS Air is built off Qwen 0.5B - a lightweight yet capable language model opt
 
 3. **Install Python dependencies**
 
-   The requirements file includes the dependencies needed to run the model with PyTorch.
-   When using an ONNX decoder or a GGML model, some dependencies (such as PyTorch) are no longer required.
+   Use [`uv`](https://github.com/astral-sh/uv) to create and sync a virtual environment with the locked dependencies (requires `python>=3.11`).
 
-   The inference is compatible and tested on `python>=3.11`.
-
-    ```
-    pip install -r requirements.txt
-    ```
-
-4. **(Optional) Install Llama-cpp-python to use the `GGUF` models.**
+   ```bash
+   uv sync
    ```
-   pip install llama-cpp-python
-   ```
-   To run llama-cpp with GPU suport (CUDA, MPS) support please refer to:
-   https://pypi.org/project/llama-cpp-python/
 
-5. **(Optional) Install onnxruntime to use the `.onnx` decoder.**
-   If you want to run the onnxdecoder
-   ```
-   pip install onnxruntime
+   To include optional dependency sets:
+
+   ```bash
+   uv sync --extra gguf   # adds llama-cpp-python for GGUF models
+   uv sync --extra onnx   # adds onnxruntime for the ONNX decoder
    ```
 
 ## Running the Model
 
 Run the basic example script to synthesize speech:
 ```bash
-python -m examples.basic_example \
+uv run python -m examples.basic_example \
   --input_text "My name is Dave, and um, I'm from London" \
   --ref_audio samples/dave.wav \
   --ref_text samples/dave.txt
